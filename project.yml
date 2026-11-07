@@ -1,0 +1,30 @@
+name: NizarScan
+options:
+  bundleIdPrefix: com.nizarsalha
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: 5.9
+    TARGETED_DEVICE_FAMILY: "1"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+targets:
+  NizarScan:
+    type: application
+    platform: iOS
+    sources:
+      - path: NizarScan
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nizarsalha.NizarScan
+        PRODUCT_NAME: NizarScan
+        INFOPLIST_KEY_CFBundleDisplayName: NizarScan
+        INFOPLIST_KEY_NSCameraUsageDescription: "NizarScan uses the camera to scan documents."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Choose images to create scanned documents."
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+    scheme:
+      testTargets: []

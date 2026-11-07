@@ -1,0 +1,35 @@
+workflows:
+  nizarscan_unsigned_ipa:
+    name: NizarScan - unsigned IPA for ESign
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      vars:
+        BUNDLE_ID: com.nizarsalha.NizarScan
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Build unsigned app
+        script: |
+          xcodebuild -project NizarScan.xcodeproj \
+            -scheme NizarScan \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+      - name: Package unsigned IPA
+        script: |
+          APP_PATH="build/Build/Products/Release-iphoneos/NizarScan.app"
+          test -d "$APP_PATH"
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          /usr/bin/ditto -c -k --sequesterRsrc --keepParent Payload NizarScan-unsigned.ipa
+    artifacts:
+      - NizarScan-unsigned.ipa
+      - build/Build/Products/Release-iphoneos/NizarScan.app
